@@ -32,7 +32,7 @@ function Pokemon({ pkmId }: { pkmId: number }) {
 export default function Home() {
   return (
     <Canvas
-      camera={{ position: [2, 0, 12.25], fov: 15 }}
+      camera={{ fov: 15 }}
       style={{
         backgroundColor: '#111a21',
         width: '100vw',
