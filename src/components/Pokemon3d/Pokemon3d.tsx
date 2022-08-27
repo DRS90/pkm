@@ -1,37 +1,22 @@
-import { useMemo } from 'react';
 import { useLoader } from '@react-three/fiber';
-import { useTexture } from '@react-three/drei';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import type { Mesh } from 'three';
+import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader';
+import { getPokemonFiles } from './utils';
+
+export interface Pokemon3dProps {
+  pokemon: string;
+}
 
 function Pokemon3d({ pokemon }: { pokemon: string }) {
-  const url = {
-    model: `pokemon/${pokemon}/model.obj`,
-    texture: `pokemon/${pokemon}/texture.png`
-  };
+  const pokemonFile = getPokemonFiles(pokemon);
 
-  const obj = useLoader(OBJLoader, url.model);
-  const texture = useTexture(url.texture);
+  const materials = useLoader(MTLLoader, pokemonFile.texture);
+  const object = useLoader(OBJLoader, pokemonFile.model, (loader) => {
+    materials.preload();
+    (loader as OBJLoader).setMaterials(materials);
+  });
 
-  const geometry = useMemo(() => {
-    let g;
-    obj.traverse((c) => {
-      if (c.type === 'Mesh') {
-        const _c = c as Mesh;
-        g = _c.geometry;
-      }
-    });
-    return g;
-  }, [obj]);
-
-  if (geometry) {
-    return (
-      <mesh geometry={geometry} scale={0.1} rotation={[1.5, -1.5, 0]}>
-        <meshPhysicalMaterial map={texture} />
-      </mesh>
-    );
-  }
-  return null;
+  return <primitive object={object} scale={0.5} rotation={[0.5, 0, 0]} />;
 }
 
 export default Pokemon3d;
