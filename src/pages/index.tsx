@@ -11,7 +11,6 @@ function Loader() {
 export default function Home() {
   return (
     <Canvas
-      camera={{ fov: 15 }}
       style={{
         backgroundColor: '#111a21',
         width: '100vw',
@@ -19,8 +18,6 @@ export default function Home() {
       }}
     >
       <ambientLight intensity={1} />
-      <ambientLight intensity={0.1} />
-      <directionalLight intensity={0.5} />
       <Suspense fallback={<Loader />}>
         <Pokemon3d pokemon="magikarp" />
       </Suspense>
