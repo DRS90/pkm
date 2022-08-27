@@ -6,9 +6,14 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { useLoader } from '@react-three/fiber';
 import type { Mesh } from 'three';
 
-function Pokemon({ pkmId }: { pkmId: number }) {
-  const obj = useLoader(OBJLoader, `/models/${pkmId}.obj`);
-  const texture = useTexture(`/texture/${pkmId}.png`);
+function Pokemon({ pokemon }: { pokemon: string }) {
+  const url = {
+    model: `pokemon/${pokemon}/model.obj`,
+    texture: `/pokemon/${pokemon}/texture.png`
+  };
+
+  const obj = useLoader(OBJLoader, url.model);
+  const texture = useTexture(url.texture);
   const geometry = useMemo(() => {
     let g;
     obj.traverse((c) => {
@@ -43,7 +48,7 @@ export default function Home() {
       <ambientLight intensity={0.1} />
       <directionalLight intensity={0.4} />
       <Suspense fallback={null}>
-        <Pokemon pkmId={129} />
+        <Pokemon pokemon="magikarp" />
       </Suspense>
       <OrbitControls />
     </Canvas>
