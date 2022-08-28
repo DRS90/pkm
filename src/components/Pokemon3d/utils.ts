@@ -9,7 +9,11 @@ function normalizePokemonName(pokemon: Pokemon3dProps['pokemon']) {
 }
 
 export function getPokemonFiles(pokemon: string) {
-  const pokemonList = ['068 - Machamp', '129 - Magikarp', '006 - Charizard'];
+  const pokemonList = [
+    '068 - Machamp',
+    '129 - Magikarp',
+    '006 - Charizard'
+  ].sort((a, b) => a.localeCompare(b));
   const pokemonFileName = pokemonList.find((pkm) =>
     normalizePokemonName(pkm).includes(normalizePokemonName(pokemon))
   );
