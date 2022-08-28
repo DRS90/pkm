@@ -1,34 +1,27 @@
-import Head from 'next/head';
-import { styled } from '@/styles/stitches.config';
-
-const Title = styled('h1', {
-  color: '$hiContrast',
-  variants: {
-    responsive: {
-      true: {
-        fontSize: '$subTitle',
-        '@desktop': {
-          fontSize: '$title'
-        }
-      },
-      false: {
-        fontSize: '$title'
-      }
-    }
-  }
-});
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div>
-      <Head>
-        <title>Nextjs Boilerplate</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main>
-        <Title responsive>Boilerplate</Title>
-      </main>
+    <div
+      style={{
+        backgroundColor: '#111a21',
+        width: '100vw',
+        height: '100vh',
+        display: 'grid',
+        placeItems: 'center'
+      }}
+    >
+      <div style={{ display: 'grid', gap: 8 }}>
+        <Link href="/charizard">
+          <a>Charizard</a>
+        </Link>
+        <Link href="/magikarp">
+          <a>Magikarp</a>
+        </Link>
+        <Link href="/machamp">
+          <a>Machamp</a>
+        </Link>
+      </div>
     </div>
   );
 }
