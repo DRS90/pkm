@@ -8,19 +8,21 @@ function normalizePokemonName(pokemon: Pokemon3dProps['pokemon']) {
   return pokemon.toLowerCase();
 }
 
-export function getPokemonFiles(pokemon: string) {
+export function getPokemonFiles(pokemon: string, shiny: boolean) {
   const pokemonList = [
     '068 - Machamp',
     '129 - Magikarp',
     '006 - Charizard'
   ].sort((a, b) => a.localeCompare(b));
-  const pokemonFileName = pokemonList.find((pkm) =>
+  const pokemonFolderName = pokemonList.find((pkm) =>
     normalizePokemonName(pkm).includes(normalizePokemonName(pokemon))
   );
-  if (pokemonFileName) {
+  if (pokemonFolderName) {
+    const shinySuffix = shiny ? ' - Shiny' : '';
+    const pokemonFileName = pokemonFolderName + shinySuffix;
     return {
-      model: `${rootFolder}/${pokemonFileName}/${pokemonFileName}${modelExtension}`,
-      texture: `${rootFolder}/${pokemonFileName}/${pokemonFileName}${materialExtension}`
+      model: `${rootFolder}/${pokemonFolderName}/${pokemonFileName}${modelExtension}`,
+      texture: `${rootFolder}/${pokemonFolderName}/${pokemonFileName}${materialExtension}`
     };
   }
   throw new Error(`Couldn't find ${pokemon}`);

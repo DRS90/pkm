@@ -5,10 +5,11 @@ import { getPokemonFiles } from './utils';
 
 export interface Pokemon3dProps {
   pokemon: string;
+  shiny: boolean;
 }
 
-function Pokemon3d({ pokemon }: { pokemon: string }) {
-  const pokemonFile = getPokemonFiles(pokemon);
+function Pokemon3d({ pokemon, shiny }: Pokemon3dProps) {
+  const pokemonFile = getPokemonFiles(pokemon, shiny);
 
   const materials = useLoader(MTLLoader, pokemonFile.texture);
   const object = useLoader(OBJLoader, pokemonFile.model, (loader) => {
