@@ -1,4 +1,4 @@
-export function getProperties<T extends { name: string }>({
+export function getProperties<T>({
   object,
   properties
 }: {
