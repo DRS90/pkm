@@ -45,7 +45,14 @@ export default function Pokemon({ name, height, sprites }: Props) {
           Shiny
         </label>
 
-        <Canvas style={{ width: '50vw', height: height * 50 }}>
+        <Canvas
+          style={{
+            width: '50vw',
+            height: '50vh',
+            display: 'grid',
+            placeItems: 'center'
+          }}
+        >
           <ambientLight intensity={1} />
           <Suspense fallback={<Loader />} key={String(isShiny)}>
             <ErrorBoundary
@@ -63,7 +70,7 @@ export default function Pokemon({ name, height, sprites }: Props) {
                 </Html>
               }
             >
-              <Pokemon3d pokemon={name} shiny={Boolean(isShiny)} />
+              <Pokemon3d pokemon={{ name, height }} shiny={Boolean(isShiny)} />
             </ErrorBoundary>
           </Suspense>
           <OrbitControls />
