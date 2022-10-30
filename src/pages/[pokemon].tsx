@@ -1,18 +1,19 @@
-import { Suspense, useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
+import { Html, OrbitControls } from '@react-three/drei';
 
 import Pokemon3d from '@/components/Pokemon3d';
 import type { GetStaticPaths, GetStaticPropsContext } from 'next';
 import { getPokemonByName } from '@/service/pokemonV2';
 import Link from 'next/link';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 
 function Loader() {
   return null;
 }
 type Props = Awaited<ReturnType<typeof getPokemonByName>>;
 
-export default function Pokemon({ name, height }: Props) {
+export default function Pokemon({ name, height, sprites }: Props) {
   const [isShiny, setIsShiny] = useState(false);
   return (
     <div
@@ -43,10 +44,27 @@ export default function Pokemon({ name, height }: Props) {
           />
           Shiny
         </label>
+
         <Canvas style={{ width: '50vw', height: height * 50 }}>
           <ambientLight intensity={1} />
           <Suspense fallback={<Loader />} key={String(isShiny)}>
-            <Pokemon3d pokemon={name} shiny={Boolean(isShiny)} />
+            <ErrorBoundary
+              Fallback={
+                <Html>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={
+                      (isShiny
+                        ? sprites.front_shiny
+                        : sprites.front_default) as string
+                    }
+                    alt=""
+                  />
+                </Html>
+              }
+            >
+              <Pokemon3d pokemon={name} shiny={Boolean(isShiny)} />
+            </ErrorBoundary>
           </Suspense>
           <OrbitControls />
         </Canvas>
