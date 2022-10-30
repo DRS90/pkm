@@ -58,7 +58,7 @@ export default function Pokemon({ name, height, sprites }: Props) {
                         ? sprites.front_shiny
                         : sprites.front_default) as string
                     }
-                    alt=""
+                    alt={`Pokemon ${name}`}
                   />
                 </Html>
               }
