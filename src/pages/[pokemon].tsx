@@ -3,13 +3,16 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 
 import Pokemon3d from '@/components/Pokemon3d';
-import type { GetStaticPaths, GetStaticProps } from 'next';
+import type { GetStaticPaths, GetStaticPropsContext } from 'next';
+import { getPokemonByName } from '@/service/pokemonV2';
+import Link from 'next/link';
 
 function Loader() {
   return null;
 }
+type Props = Awaited<ReturnType<typeof getPokemonByName>>;
 
-export default function Home({ pokemon }: { pokemon: string }) {
+export default function Pokemon({ name, height }: Props) {
   const [isShiny, setIsShiny] = useState(false);
   return (
     <div
@@ -21,6 +24,9 @@ export default function Home({ pokemon }: { pokemon: string }) {
         placeItems: 'center'
       }}
     >
+      <Link href={'/'}>
+        <a style={{ color: 'white' }}>Back</a>
+      </Link>
       <div>
         <label
           style={{
@@ -37,10 +43,10 @@ export default function Home({ pokemon }: { pokemon: string }) {
           />
           Shiny
         </label>
-        <Canvas style={{ width: '50vw', height: '50vh' }}>
+        <Canvas style={{ width: '50vw', height: height * 50 }}>
           <ambientLight intensity={1} />
           <Suspense fallback={<Loader />} key={String(isShiny)}>
-            <Pokemon3d pokemon={pokemon} shiny={Boolean(isShiny)} />
+            <Pokemon3d pokemon={name} shiny={Boolean(isShiny)} />
           </Suspense>
           <OrbitControls />
         </Canvas>
@@ -56,10 +62,15 @@ export const getStaticPaths: GetStaticPaths = () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = ({ params }) => {
+export async function getStaticProps({
+  params
+}: GetStaticPropsContext<{ pokemon: string }>) {
+  if (!params?.pokemon) {
+    throw new Error('Expect pokemon');
+  }
   return {
     props: {
-      ...params
+      ...(await getPokemonByName(params.pokemon))
     }
   };
-};
+}
