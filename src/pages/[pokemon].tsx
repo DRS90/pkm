@@ -75,7 +75,7 @@ export default function Pokemon({ name, height, sprites }: Props) {
 
 export const getStaticPaths: GetStaticPaths = () => {
   return {
-    paths: [{ params: { pokemon: 'magikarp' } }],
+    paths: [],
     fallback: 'blocking'
   };
 };
