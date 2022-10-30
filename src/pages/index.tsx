@@ -6,7 +6,6 @@ interface HomeProps {
 }
 
 export default function Home({ pokemonList }: HomeProps) {
-  console.log(pokemonList.results);
   return (
     <div
       style={{
@@ -18,7 +17,7 @@ export default function Home({ pokemonList }: HomeProps) {
       }}
     >
       <div style={{ display: 'grid', gap: 8 }}>
-        {pokemonList.results.map((pokemon) => (
+        {pokemonList.map((pokemon) => (
           <Link href="/machamp" key={pokemon.name}>
             <a>{pokemon.name}</a>
           </Link>

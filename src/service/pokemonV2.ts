@@ -1,4 +1,9 @@
-const provider = 'https://pokeapi.co/api/v2/';
+const provider = {
+  basePath: 'https://pokeapi.co/api/v2/',
+  get<T>(url: string): Promise<T> {
+    return fetch(this.basePath + url).then((data) => data.json());
+  }
+};
 
 export interface SimplePokemonResponse {
   name: string;
@@ -6,6 +11,9 @@ export interface SimplePokemonResponse {
 }
 
 export interface PokemonResponse {
+  previous: string | null;
+  next: string | null;
+  count: number;
   results: SimplePokemonResponse[];
 }
 
@@ -14,7 +22,7 @@ export async function getAllPokemon({
 }: {
   limit?: string;
   offset?: string;
-} = {}): Promise<PokemonResponse> {
-  const data = await fetch(`${provider}/pokemon?limit=${limit}}`);
-  return data.json();
+} = {}): Promise<PokemonResponse['results']> {
+  const data = await provider.get<PokemonResponse>(`/pokemon?limit=${limit}`);
+  return data.results;
 }
