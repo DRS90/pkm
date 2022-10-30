@@ -1,10 +1,8 @@
-import type { Pokemon3dProps } from './Pokemon3d';
-
 const rootFolder = 'pokemon';
 const materialExtension = '.mtl';
 const modelExtension = '.obj';
 
-function normalizePokemonName(pokemon: Pokemon3dProps['pokemon']) {
+function normalizePokemonName(pokemon: string) {
   return pokemon.toLowerCase();
 }
 
