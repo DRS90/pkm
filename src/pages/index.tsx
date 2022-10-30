@@ -1,6 +1,12 @@
+import { getAllPokemon } from '@/service/pokemonV2';
 import Link from 'next/link';
 
-export default function Home() {
+interface HomeProps {
+  pokemonList: Awaited<ReturnType<typeof getAllPokemon>>;
+}
+
+export default function Home({ pokemonList }: HomeProps) {
+  console.log(pokemonList.results);
   return (
     <div
       style={{
@@ -12,16 +18,15 @@ export default function Home() {
       }}
     >
       <div style={{ display: 'grid', gap: 8 }}>
-        <Link href="/charizard">
-          <a>Charizard</a>
-        </Link>
-        <Link href="/magikarp">
-          <a>Magikarp</a>
-        </Link>
-        <Link href="/machamp">
-          <a>Machamp</a>
-        </Link>
+        {pokemonList.results.map((pokemon) => (
+          <Link href="/machamp" key={pokemon.name}>
+            <a>{pokemon.name}</a>
+          </Link>
+        ))}
       </div>
     </div>
   );
+}
+export async function getStaticProps() {
+  return { props: { pokemonList: await getAllPokemon({ limit: '151' }) } };
 }
