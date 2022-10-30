@@ -18,7 +18,7 @@ export default function Home({ pokemonList }: HomeProps) {
     >
       <div style={{ display: 'grid', gap: 8 }}>
         {pokemonList.map((pokemon) => (
-          <Link href="/machamp" key={pokemon.name}>
+          <Link href={`/${pokemon.name}`} key={pokemon.name}>
             <a>{pokemon.name}</a>
           </Link>
         ))}
@@ -26,6 +26,7 @@ export default function Home({ pokemonList }: HomeProps) {
     </div>
   );
 }
+
 export async function getStaticProps() {
   return { props: { pokemonList: await getAllPokemon({ limit: '151' }) } };
 }
