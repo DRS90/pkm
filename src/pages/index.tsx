@@ -19,7 +19,7 @@ export default function Home({ pokemonList }: HomeProps) {
       <div style={{ display: 'grid', gap: 8 }}>
         {pokemonList.map((pokemon) => (
           <Link href={`/${pokemon.name}`} key={pokemon.name}>
-            <a>{pokemon.name}</a>
+            {pokemon.name}
           </Link>
         ))}
       </div>

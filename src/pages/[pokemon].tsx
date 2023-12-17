@@ -25,8 +25,8 @@ export default function Pokemon({ name, height, sprites }: Props) {
         placeItems: 'center'
       }}
     >
-      <Link href={'/'}>
-        <a style={{ color: 'white' }}>Back</a>
+      <Link href={'/'} style={{ color: 'white' }}>
+        Back
       </Link>
       <div>
         <label
